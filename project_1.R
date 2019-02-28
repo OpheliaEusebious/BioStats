@@ -58,7 +58,7 @@ calh + geom_density()
 #Calories
 cal + geom_density()
 #Plot matrix with correlation coefficient
-ggpairs(muscledata_edit, col = 2:4)   #col 1 is ID (ignored) 
+ggpairs(data, col = 1:3)  
 
 #Missing values
 md.pattern(data) #Missing values only in calories data
