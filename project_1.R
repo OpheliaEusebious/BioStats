@@ -1,17 +1,24 @@
 #Project - Statistic Methods for Bioinformatics
 data <- read.table("muscle-incomplete.txt", header = TRUE)
+data
 #Packages
 library(skimr)
 library(ggplot2)
 library(plotly)
 library(mice)
 library(VIM)
+library(pastecs)
+
 
 ###################################################################
 #     DESCRIPTIVE STATISTICS AND EXPLORATORY DATA ANALYSIS        #
 ###################################################################
 #Summary - Using Summary function
-summary(data)
+datasum <- summary(data)
+datasum
+#descriptive statistics using stat.desc function
+descript.data <- stat.desc(data[,c("weight","calhour","calories")],basic = TRUE, desc = TRUE)
+descript.data
 #Summary - Using skimr function
 skim(data)
 #Normality of data
@@ -35,6 +42,14 @@ calh + geom_histogram()
 cal <- ggplot(data,aes(x=calories))
 cal + geom_histogram()
 
+#Individual Boxplots
+par(mfrow=c(1,3))
+boxplot(weight, main='weight', col="green4")
+boxplot(calhour, main='calhour', col="magenta4")
+boxplot(calories, main='calories', col="red4")
+#Boxplot: CalHour vs. calories
+boxplot(calories~calhour, main = "Calories burned", xlab="CalHour",ylab="Calories")
+
 #Density plots
 #Weight
 w + geom_density()
@@ -42,12 +57,11 @@ w + geom_density()
 calh + geom_density()
 #Calories
 cal + geom_density()
+#Plot matrix with correlation coefficient
+ggpairs(data, col = 1:3)  
 
 #Missing values
 md.pattern(data) #Missing values only in calories data
 aggr_plot <- aggr(data, col=c('navyblue','red'), 
                   numbers=TRUE, sortVars=TRUE, labels=names(data), cex.axis=.7, gap=3, 
                   ylab=c("Histogram of missing data","Pattern")) #Missing values in calories -> 33.3%
-
-
-
